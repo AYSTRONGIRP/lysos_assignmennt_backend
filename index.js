@@ -25,18 +25,37 @@ const User = require('./models/user_model')
 
 app.listen(8080);
 
+app.get('/result', async(req,res)=>{
+    // const now = new Date();
+    // const msUntilNextEvenMinute = 60000 * (2 - (now.getMinutes() % 2)) - now.getSeconds() * 1000;
+    console.log(req.query)
+    const {name} = req.query
+    const result = await PreviousWinner.findOne({"name": name})
+    res.send(result.winner);
+})
+
+// async function getResult() {
+//     while (latestTournament.winner === 'No one has participated') {
+//         // Waiting for the condition to be met
+//         await new Promise(resolve => setTimeout(resolve, 1000)); // Wait for 1 second before rechecking
+//     }
+//     // Return the result once the condition is met
+//     return latestTournament;
+// }
+
 let ctname ;
 let tournamentCount = 0;
 let winner = ''
 let minPid ;
 let minNum ; 
 let minMoney ;
+let latestTournament;
 
 async function myFunction() {
     // Your code to be executed goes here
     console.log("Executing myFunction..."); 
 
-    let latestTournament;
+    
     try {
         latestTournament = await PreviousWinner.findOne().sort({ id: -1 });
         console.log(latestTournament ,"last Tournament");
