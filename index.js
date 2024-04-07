@@ -28,11 +28,17 @@ app.listen(8080);
 app.get('/result', async(req,res)=>{
     // const now = new Date();
     // const msUntilNextEvenMinute = 60000 * (2 - (now.getMinutes() % 2)) - now.getSeconds() * 1000;
-    console.log(req.query)
+    console.log(req.query , "result query")
     const {name} = req.query
     const result = await PreviousWinner.findOne({"name": name})
-    res.send(result.winner);
-})
+    console.log(result);
+    console.log(result);
+    if (result)
+        res.status(200).json(result.num);
+    else
+        res.sendStatus(404); // Sending a 404 status code if the result is not found
+});
+
 
 // async function getResult() {
 //     while (latestTournament.winner === 'No one has participated') {
